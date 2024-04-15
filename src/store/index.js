@@ -40,31 +40,26 @@ const store = createStore({
   },
   mutations: {
     setAuthenticated (state, isAuthenticated) {
-      console.log('set auth', isAuthenticated)
       state.isAuthenticated = isAuthenticated
     },
     setLeadhitSiteId (state, leadhitSiteId) {
-      console.log('set ID')
       state.leadhitSiteId = leadhitSiteId
       localStorage.setItem('leadhit-site-id', leadhitSiteId)
     },
     removeLeadhitSiteId (state) {
-      console.log('remove ID')
       state.leadhitSiteId = null
       localStorage.removeItem('leadhit-site-id')
     }
   },
   actions: {
-    setAuthenticated ({ commit }, payload) {
-      const { isAuthenticated, leadhitSiteId = null } = payload
-
-      console.log('act', payload, commit)
+    setAuthenticated ({ commit }, { isAuthenticated, leadhitSiteId = null }) {
       if (!isAuthenticated) {
-        commit('setAuthenticated', isAuthenticated)
         commit('removeLeadhitSiteId')
       } else {
         commit('setLeadhitSiteId', leadhitSiteId)
       }
+
+      commit('setAuthenticated', isAuthenticated)
     }
   }
 })
