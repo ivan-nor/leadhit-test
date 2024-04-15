@@ -1,26 +1,39 @@
+<!-- eslint-disable no-unused-vars -->
 <template>
   <header>
-    <h1>LeadHit</h1>
-    <router-link to="/analytics">Analytics</router-link>
-    <button @click="handleLogout" v-if="isAuth">Logout</button>
+    <RouterLink to="/" style="text-decoration: none;">
+        <h1>{{ t('header.title') }}</h1>
+    </RouterLink>
+
+    <RouterLink to="/analytics">{{ t('header.analytics') }}</RouterLink>
+
+    <div v-if="isAuth">
+      <button @click="handleLogout" >{{ t('header.logout') }}</button>
+    </div>
+    <div v-else>
+      <button @click="handleLogin">{{ t('header.login') }}</button>
+    </div>
   </header>
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+// eslint-disable-next-line no-unused-vars
+import { computed } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
 const store = useStore()
-const isAuth = store.state.isAuthenticated
-
-onMounted(() => {
-  console.log(store.state.isAuthenticated)
-})
+const { t } = useI18n()
+const isAuth = computed(() => store.state.isAuthenticated)
 
 function handleLogout () {
-  store.dispatch('setAuthenticated', false)
+  store.dispatch('setAuthenticated', { isAuthenticated: false })
+  router.push('/auth')
+}
+
+function handleLogin () {
   router.push('/auth')
 }
 

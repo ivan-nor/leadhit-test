@@ -1,20 +1,24 @@
 <template>
   <div>
-    <h1>Аналитика по визитам</h1>
-    <div ref="chartdiv" id="chartdiv" style="width: 100%; height: 500px;"></div>
+    <h1>{{ t('analytics.title') }}</h1>
+    <h2>{{ t('analytics.subtitle') }}</h2>
+
+    <div ref="chartdiv" id="chartdiv"></div>
   </div>
 </template>
 
 <script setup>
+/* eslint-disable camelcase */
 import { ref, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
 import * as am5 from '@amcharts/amcharts5'
 import * as am5xy from '@amcharts/amcharts5/xy'
-// eslint-disable-next-line camelcase
 import am5themes_Animated from '@amcharts/amcharts5/themes/Animated'
 
 const chartdiv = ref(null)
 const store = useStore()
+const { t } = useI18n()
 
 onMounted(() => {
   renderChart()
@@ -23,8 +27,13 @@ onMounted(() => {
 function renderChart () {
   const root = am5.Root.new('chartdiv')
 
+  const am5locales_ru_RU = JSON.stringify({
+    January: 'Январь',
+    July: 'Июль'
+  })
+  root.locale = am5locales_ru_RU
+
   const chartData = computed(() => store.state.analyticsData)
-  // eslint-disable-next-line no-unused-vars
   const actualChartData = chartData.value.map((item) => ({ ...item }))
 
   const myTheme = am5.Theme.new(root)
@@ -86,7 +95,7 @@ function renderChart () {
     valueYField: 'visits',
     valueXField: 'date',
     tooltip: am5.Tooltip.new(root, {
-      labelText: '{valueY}'
+      labelText: `${t('analytics.visits')}: {valueY}`
     })
   }))
 
@@ -107,3 +116,10 @@ function renderChart () {
   series.data.setAll(prepareData(actualChartData))
 }
 </script>
+
+<style>
+#chartdiv {
+  width: 100%;
+  height: 500px;
+}
+</style>
