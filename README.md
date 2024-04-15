@@ -1,24 +1,22 @@
-# leadhit-test
+# Тестовое задание [LeadHit](leadhit.ru)
+Приложение создано с помощью **Vue-CLI**. Использованы библиотеки `vue-router` и `vuex`. С помощью `vue-router` созданы две страницы: **Авторизация** и **Аналитика**
 
-## Project setup
+На странице Аналитики отображается график, созданный с помощью библиотеки `amCharts`
+
+# [Попробовать можно здесь](https://leadhit-test.onrender.com/)
+
+#### Установка
+
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+#### Режим разработки
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+#### Сборка для продакшн
 ```
 npm run build
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
